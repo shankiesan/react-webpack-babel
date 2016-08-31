@@ -45,7 +45,9 @@ module.exports = {
 	devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
 	output: {
 		path: path.join(__dirname, 'public'),
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		hotUpdateChunkFilename : 'hotupdate.js',
+		hotUpdateMainFilename : 'hotupdate.json'
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx']
@@ -55,7 +57,7 @@ module.exports = {
 	},
 	devServer: {
 		contentBase: "./public",
-		outputPath: path.join(__dirname, './public'),
+		outputPath: path.join(__dirname, 'public'),
 		filename: 'bundle.js',
 		// do not print bundle build stats
 		noInfo: true,
@@ -71,7 +73,10 @@ module.exports = {
 	plugins: [
 		new webpack.NoErrorsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new WriteFilePlugin(),
+		new WriteFilePlugin({
+			log : false,
+			useHashIndex: true
+		}),
 		new HtmlWebpackPlugin({
 			template: './src/template.html'
 		}),
